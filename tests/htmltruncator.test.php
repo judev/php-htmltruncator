@@ -1,6 +1,6 @@
 <?php
 
-require_once 'src/truncator.php';
+require_once 'src/HtmlTruncator/truncator.php';
 
 use HtmlTruncator\Truncator;
 
