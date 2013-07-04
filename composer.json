@@ -1,0 +1,20 @@
+{
+  "name": "judev/php-htmltruncator",
+  "description": "HTML Truncation library, ported from the html_truncator rubygem",
+  "version": "0.1.0",
+  "type": "library",
+  "keywords": ["PHP", "HTML"],
+  "homepage": "https://github.com/judev/php-htmltruncator",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jude Venn",
+      "homepage": "https://github.com/judev",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0",
+    "electrolinux/php-html5lib": "dev-master"
+  }
+}
