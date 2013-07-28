@@ -41,12 +41,20 @@ class Truncator {
 		// wrap the html in case it consists of adjacent nodes like <p>foo</p><p>bar</p>
 		$html = "<div>".$html."</div>";
 
+		$root_node = null;
+
 		// Parse using HTML5Lib if it's available.
 		if (class_exists('HTML5Lib\\Parser')) {
-			$doc = \HTML5Lib\Parser::parse($html);
-			$root_node = $doc->documentElement->lastChild->lastChild;
+			try {
+				$doc = \HTML5Lib\Parser::parse($html);
+				$root_node = $doc->documentElement->lastChild->lastChild;
+			}
+			catch (\Exception $e) {
+				;
+			}
 		}
-		else {
+
+		if ($root_node === null) {
 			// HTML5Lib not available so we'll have to use DOMDocument
 			// We'll only be able to parse HTML5 if it's valid XML
 			$doc = new DOMDocument;
