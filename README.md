@@ -8,6 +8,7 @@ suitable place.
 There is optional support for [php-html5lib](https://github.com/electrolinux/php-html5lib) if parsing
 of non-well-formed HTML5 is required. This is because PHP's DOMDocument->loadHTML (or the underlying libxml) doesn't recognize HTML5.
 
+During the truncation process the HTML will be loaded into a DOMDocument. This can be relatively slow and memory hungry, so you may want to cache the truncated output.
 
 How to use it
 -------------
