@@ -1,10 +1,10 @@
 <?php
 
-require_once 'src/HtmlTruncator/truncator.php';
-
 use HtmlTruncator\Truncator;
 
 class HtmlTruncatorTest extends PHPUnit_Framework_TestCase {
+
+	protected $ellipsis = '…';
 
 	public function setup() {
 		$this->short_text = "<p>Foo <b>Bar</b> Baz</p>";
@@ -155,6 +155,18 @@ On 11/06/11 11:12, JP wrote:<br />
 <p>Foo bar baz</p>
 ";
 		$this->assertRegExp('/<img src="\/foo.png"/', Truncator::truncate($txt, 2));
+	}
+
+	public function testTruncateMethodDoesNotSkipWords()
+	{
+		$sample = '<p>The Arcus Foundation latest effort in support of legal issues.</p>';
+		$charLength = 30;
+
+		$result = Truncator::truncate($sample, $charLength, array('length_in_chars' => true));
+
+		$expectedResult = '<p>The Arcus Foundation latest'.$this->ellipsis.'</p>';
+
+		$this->assertSame($expectedResult, $result);
 	}
 }
 

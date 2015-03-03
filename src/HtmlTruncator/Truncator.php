@@ -133,12 +133,16 @@ class Truncator {
 				return array($xhtml, $count, $opts);
 			}
 			if (count($words) > 1) {
-				$content = array_reduce($words, function($result, $word) use ($length) {
-					if (strlen($result) + strlen($word) <= $length) {
-						$result .= $word;
+				$content = '';
+
+				foreach ($words as $word) {
+					if (strlen($content) + strlen($word) > $length) {
+						break;
 					}
-					return $result;
-				}, '');
+
+					$content .= $word;
+				}
+
 				return array($content, $count, $opts);
 			}
 			return array(substr($node->textContent, 0, $length), $count, $opts);
