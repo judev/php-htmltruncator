@@ -4,8 +4,6 @@ use HtmlTruncator\Truncator;
 
 class HtmlTruncatorTest extends PHPUnit_Framework_TestCase {
 
-	protected $ellipsis = '…';
-
 	public function setup() {
 		$this->short_text = "<p>Foo <b>Bar</b> Baz</p>";
 		$this->long_text = "<p>Foo ".str_repeat("<b>Bar Baz</b> ", 100)."Quux</p>";
@@ -164,9 +162,18 @@ On 11/06/11 11:12, JP wrote:<br />
 
 		$result = Truncator::truncate($sample, $charLength, array('length_in_chars' => true));
 
-		$expectedResult = '<p>The Arcus Foundation latest'.$this->ellipsis.'</p>';
+		$expectedResult = '<p>The Arcus Foundation latest…</p>';
 
 		$this->assertSame($expectedResult, $result);
 	}
+
+	public function testRemovesPunctuationBeforeEllipsis() {
+		$sample = "<p>Foo! <b>Bar</b> Baz</p>";
+		$expectedResult = "<p>Foo…</p>";
+		$length = 1;
+		$result = Truncator::truncate($sample, $length);
+		$this->assertSame($expectedResult, $result);
+	}
+
 }
 

@@ -113,7 +113,7 @@ class Truncator {
 			$inner .= $txt;
 			if ($remaining < 0) {
 				if (static::ellipsable($node)) {
-					$inner = rtrim($inner).$opts['ellipsis'];
+					$inner = preg_replace('/[\s\pP]+$/', '', $inner).$opts['ellipsis'];
 					$opts['ellipsis'] = '';
 					$opts['was_truncated'] = true;
 				}
