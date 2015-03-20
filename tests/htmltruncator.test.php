@@ -175,5 +175,16 @@ On 11/06/11 11:12, JP wrote:<br />
 		$this->assertSame($expectedResult, $result);
 	}
 
+	public function testHandleHtmlComments()
+	{
+		$sample = '<div><!--<a href="#">test</a>--><p>Lorem Ipsum</p></div>';
+		$charLength = 100;
+
+		$result = Truncator::truncate($sample, $charLength, array('length_in_chars' => true));
+
+		$expectedResult = '<div><p>Lorem Ipsum</p></div>';
+
+		$this->assertSame($expectedResult, $result);
+	}
 }
 
