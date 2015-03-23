@@ -108,6 +108,9 @@ class Truncator {
 			}
 			else if ($childNode->nodeType === XML_TEXT_NODE) {
 				list($txt, $nb, $opts) = static::_truncate_text($doc, $childNode, $remaining, $opts);
+			} else {
+				$txt = '';
+				$nb  = 0;
 			}
 			$remaining -= $nb;
 			$inner .= $txt;
