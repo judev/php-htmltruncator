@@ -186,5 +186,14 @@ On 11/06/11 11:12, JP wrote:<br />
 
 		$this->assertSame($expectedResult, $result);
 	}
+
+	public function testFiltersBadUtf8() {
+		$sample = '<p>Lorem'.chr(27).'Ipsum Dolor</p>';
+		$length = 2;
+		$result = Truncator::truncate($sample, $length);
+		$expectedResult = '<p>Lorem Ipsum…</p>';
+		$this->assertSame($expectedResult, $result);
+	}
+
 }
 

@@ -39,7 +39,7 @@ class Truncator {
 		if (is_string($opts)) $opts = array('ellipsis' => $opts);
 		$opts = array_merge(static::$default_options, $opts);
 		// wrap the html in case it consists of adjacent nodes like <p>foo</p><p>bar</p>
-		$html = "<div>".$html."</div>";
+		$html = "<div>".static::utf8_for_xml($html)."</div>";
 
 		$root_node = null;
 
@@ -165,5 +165,8 @@ class Truncator {
 		;
 	}
 
+	protected static function utf8_for_xml($string) {
+		return preg_replace('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $string);
+	}
 }
 
