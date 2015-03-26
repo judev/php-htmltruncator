@@ -94,7 +94,12 @@ class Truncator {
 			$node->removeChild($node->firstChild);
 		}
 		$newNode = $doc->createDocumentFragment();
-		$newNode->appendXml($inner);
+		try {
+			$newNode->appendXml($inner);
+		}
+		catch (\Exception $e) {
+			dd($inner);
+		}
 		$node->appendChild($newNode);
 		return array($doc->saveXML($node), $length - $remaining, $opts);
 	}
@@ -116,7 +121,7 @@ class Truncator {
 			$inner .= $txt;
 			if ($remaining < 0) {
 				if (static::ellipsable($node)) {
-					$inner = preg_replace('/[\s\pP]+$/', '', $inner).$opts['ellipsis'];
+					$inner = preg_replace('/[\s\pP]*(?:&(?:[a-z]+|#[0-9]+);)?$/', '', $inner).$opts['ellipsis'];
 					$opts['ellipsis'] = '';
 					$opts['was_truncated'] = true;
 				}
