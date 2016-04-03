@@ -202,5 +202,14 @@ On 11/06/11 11:12, JP wrote:<br />
 		$expectedResult = '<p>Foo…</p>';
 		$this->assertSame($expectedResult, $result);
 	}
+
+	public function testUnicodeDoesntBreak() {
+		$sample = '<p>This is the greek letter beta: β</p>';
+		$length = 7;
+		$result = Truncator::truncate($sample, $length);
+		$expectedResult = $sample;
+		$this->assertSame($expectedResult, $result);
+	}
+
 }
 
