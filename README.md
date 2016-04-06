@@ -10,6 +10,8 @@ of non-well-formed HTML5 is required. This is because PHP's DOMDocument->loadHTM
 
 During the truncation process the HTML will be loaded into a DOMDocument. This can be relatively slow and memory hungry, so you may want to cache the truncated output.
 
+The [intl](http://php.net/intl) and [mbstring](http://php.net/mbstring) extensions are highly recommended to make truncation of international text more predictable.
+
 How to use it
 -------------
 
