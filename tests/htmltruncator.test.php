@@ -203,11 +203,26 @@ On 11/06/11 11:12, JP wrote:<br />
 		$this->assertSame($expectedResult, $result);
 	}
 
-	public function testUnicodeDoesntBreak() {
+	public function testUnicodeDoesntBreakUsingWordLimit() {
 		$sample = '<p>This is the greek letter beta: β</p>';
 		$length = 7;
 		$result = Truncator::truncate($sample, $length);
 		$expectedResult = $sample;
+		$this->assertSame($expectedResult, $result);
+	}
+
+	public function testUnicodeDoesntBreakUsingCharacterLimit() {
+		$sample = '<p>Ячмень пивоваренный. Ячмень пивоваренный, Ячмень пивоваренный; Ячмень пивоваренный.</p>';
+		$expectedResult = '<p>Ячмень…</p>';
+		$length = 19;
+		$result = Truncator::truncate($sample, $length, array('length_in_chars' => true));
+		$this->assertSame($expectedResult, $result);
+		$expectedResult = '<p>Ячмень пивоваренный…</p>';
+		$length = 20;
+		$result = Truncator::truncate($sample, $length, array('length_in_chars' => true));
+		$this->assertSame($expectedResult, $result);
+		$length = 22;
+		$result = Truncator::truncate($sample, $length, array('length_in_chars' => true));
 		$this->assertSame($expectedResult, $result);
 	}
 

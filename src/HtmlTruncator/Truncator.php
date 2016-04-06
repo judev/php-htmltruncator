@@ -5,6 +5,31 @@ use DOMDocument;
 class InvalidHtmlException extends \Exception {
 }
 
+if (function_exists('grapheme_strlen')) {
+	function ht_strlen($string) { return grapheme_strlen($string); }
+	function ht_substr($string, $from, $to = 2147483647) { return grapheme_substr($string, $from, $to); }
+}
+else if (function_exists('mb_strlen')) {
+	function ht_strlen($string) { return mb_strlen($string); }
+	function ht_substr($string, $from, $to = 2147483647) { return mb_substr($string, $from, $to); }
+}
+else if (function_exists('iconv_strlen')) {
+	function ht_strlen($string) { return iconv_strlen($string); }
+	function ht_substr($string, $from, $to = 2147483647) { return iconv_substr($string, $from, $to); }
+}
+else {
+	function ht_strlen($string) { return strlen($string); }
+	function ht_substr($string, $from, $to = 2147483647) { return substr($string, $from, $to); }
+}
+
+if (function_exists('mb_strtolower')) {
+	function ht_strtolower($string) { return mb_strtolower($string); }
+	function ht_strtoupper($string) { return mb_strtoupper($string); }
+}
+else {
+	function ht_strtolower($string) { return strtolower($string); }
+	function ht_strtoupper($string) { return strtoupper($string); }
+}
 
 class Truncator {
 
@@ -78,7 +103,7 @@ class Truncator {
 		}
 
 		list($text, $_, $opts) = static::_truncate_node($doc, $root_node, $length, $opts);
-		$text = substr(substr($text, 0, -6), 5);
+		$text = ht_substr(ht_substr($text, 0, -6), 5);
 		return $text;
 	}
 
@@ -87,8 +112,8 @@ class Truncator {
 			return array('', 1, $opts);
 		}
 		list($inner, $remaining, $opts) = static::_inner_truncate($doc, $node, $length, $opts);
-		if (0 === strlen($inner)) {
-			return array(in_array(strtolower($node->nodeName), static::$self_closing_tags) ? $doc->saveXML($node) : "", $length - $remaining, $opts);
+		if (0 === ht_strlen($inner)) {
+			return array(in_array(ht_strtolower($node->nodeName), static::$self_closing_tags) ? $doc->saveXML($node) : "", $length - $remaining, $opts);
 		}
 		while($node->firstChild) {
 			$node->removeChild($node->firstChild);
@@ -131,7 +156,7 @@ class Truncator {
 		preg_match_all('/\s*\S+/', $xhtml, $words);
 		$words = $words[0];
 		if ($opts['length_in_chars']) {
-			$count = strlen($xhtml);
+			$count = ht_strlen($xhtml);
 			if ($count <= $length && $length > 0) {
 				return array($xhtml, $count, $opts);
 			}
@@ -139,7 +164,7 @@ class Truncator {
 				$content = '';
 
 				foreach ($words as $word) {
-					if (strlen($content) + strlen($word) > $length) {
+					if (ht_strlen($content) + ht_strlen($word) > $length) {
 						break;
 					}
 
@@ -148,7 +173,7 @@ class Truncator {
 
 				return array($content, $count, $opts);
 			}
-			return array(substr($node->textContent, 0, $length), $count, $opts);
+			return array(ht_substr($node->textContent, 0, $length), $count, $opts);
 		}
 		else {
 			$count = count($words);
@@ -161,7 +186,7 @@ class Truncator {
 
 	protected static function ellipsable($node) {
 		return ($node instanceof DOMDocument)
-			|| in_array(strtolower($node->nodeName), static::$ellipsable_tags)
+			|| in_array(ht_strtolower($node->nodeName), static::$ellipsable_tags)
 		;
 	}
 
