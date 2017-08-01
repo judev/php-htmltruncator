@@ -224,7 +224,12 @@ On 11/06/11 11:12, JP wrote:<br />
 		$length = 22;
 		$result = Truncator::truncate($sample, $length, array('length_in_chars' => true));
 		$this->assertSame($expectedResult, $result);
-	}
 
+		$sample = "El cartel está iluminado con módulos de led blanco frío.";
+		$result = Truncator::truncate($sample, 21, ['length_in_chars' => true, 'ellipsis' => '']);
+		$this->assertEquals('El cartel está', $result);
+		$result = Truncator::truncate($sample, 21, ['length_in_chars' => true]);
+		$this->assertEquals('El cartel está…', $result);
+	}
 }
 
