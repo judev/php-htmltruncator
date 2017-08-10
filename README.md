@@ -1,6 +1,8 @@
 PHP HTML Truncator
 ==================
 
+[![Build Status](https://api.travis-ci.org/judev/php-htmltruncator.svg)](https://travis-ci.org/judev/php-htmltruncator)
+
 This is a PHP port of the [html_truncator gem](https://github.com/nono/HTML-Truncator).
 
 It will cleanly truncate HTML content, appending an ellipsis or other marker in the most
