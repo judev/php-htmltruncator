@@ -7,7 +7,7 @@ This is a PHP port of the [html_truncator gem](https://github.com/nono/HTML-Trun
 
 It will cleanly truncate HTML content, appending an ellipsis or other marker in the most
 suitable place.
-There is optional support for [php-html5lib](https://github.com/electrolinux/php-html5lib) if parsing
+There is optional support for [html5-php](https://github.com/Masterminds/html5-php) if parsing
 of non-well-formed HTML5 is required. This is because PHP's DOMDocument->loadHTML (or the underlying libxml) doesn't recognize HTML5.
 
 During the truncation process the HTML will be loaded into a DOMDocument. This can be relatively slow and memory hungry, so you may want to cache the truncated output.
