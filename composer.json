@@ -14,7 +14,7 @@
   ],
   "require": {
     "php": ">=5.3.0",
-    "electrolinux/php-html5lib": "0.1.0"
+    "masterminds/html5": "^2.0"
   },
   "suggest": {
     "ext-intl": "*",

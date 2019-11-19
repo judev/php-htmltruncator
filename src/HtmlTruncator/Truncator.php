@@ -69,10 +69,11 @@ class Truncator {
 		$root_node = null;
 
 		// Parse using HTML5Lib if it's available.
-		if (class_exists('HTML5Lib\\Parser')) {
+		if (class_exists('Masterminds\HTML5')) {
 			try {
-				$doc = \HTML5Lib\Parser::parse($html);
-				$root_node = $doc->documentElement->lastChild->lastChild;
+				$html5 = new \Masterminds\HTML5();
+				$doc = $html5->loadHTML($html);
+				$root_node = $doc->documentElement->lastChild;
 			}
 			catch (\Exception $e) {
 				;
